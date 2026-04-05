@@ -24,7 +24,7 @@ Prototype system simulating airport passenger flow monitoring using AI video ana
 cd python
 python -m uvicorn main:app --reload
 
-### Node
 
-cd node
-npx ts-node processClips.ts
+### web page (UI)
+cd video_analytic-ui
+npm start
