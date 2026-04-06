@@ -14,6 +14,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: video_analytic-ui
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -32,4 +36,4 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: bitovi/github-actions-react-to-github-pages@v1.2.4
         with:
-          path: build
+          path: video_analytic-ui/build
