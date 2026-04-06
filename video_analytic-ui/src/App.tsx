@@ -1,5 +1,7 @@
 import { ChangeEvent, useState, useRef } from "react";
 import axios from "axios";
+import "./App.css";
+import Logo from "./images/eye.png";
 
 function App() {
   const [file, setFile] = useState<File | null>(null);
@@ -65,51 +67,53 @@ function App() {
 
   //JSX
    return (
-    <div style={{ padding: 40, fontFamily: "Arial" }}>
-      <h2>🎥 Video Analytics Demo</h2>
-      
-      {/* Upload */}
-      <div
-        style={{
-          border: "2px dashed gray",
-          padding: 20,
-          marginBottom: 20,
-        }}
-      >
-        <input type="file" accept="video/*" onChange={handleFileChange} ref={fileInputRef} />
+    <div className="app">
+      <div className="card">
+        <h2 style={{color:"#005b96"}}> <img src={Logo} style={{height:50, width:50}} alt="logo" /> Video Analytics Dashboard</h2>
+
+        {/* Upload */}
+        <div className="upload-box">
+          <input
+            type="file"
+            accept="video/*"
+            onChange={handleFileChange}
+            ref={fileInputRef}
+          />
+          <p>Drag & drop or select a video</p>
+        </div>
+
+        {file && <p className="filename">📄 {file.name}</p>}
+
+        {/* Buttons */}
+        <div className="button-group">
+          <button onClick={handleProcess} disabled={loading}>
+            {loading ? "Processing..." : "Process"}
+          </button>
+
+          <button onClick={handleClear} disabled={loading}>
+            Clear
+          </button>
+        </div>
+
+        {/* Results */}
+        {result && (
+          <div className="results">
+            <h3>📊 Results</h3>
+            <p>Entered: {result.total_entered}</p>
+            <p>Max Queue: {result.max_queue}</p>
+          </div>
+        )}
+
+        {/* Video */}
+        {videoUrl && (
+          <div className="video-container">
+            <h3>🎬 Processed Video</h3>
+            <video controls>
+              <source src={videoUrl} type="video/mp4" />
+            </video>
+          </div>
+        )}
       </div>
-      <button onClick={handleClear} disabled={loading || (!file && !result && !videoUrl)}>
-        Clear
-      </button>
-
-      <br /><br />
-      
-
-      {/* Button */}
-      <button onClick={handleProcess} disabled={loading}>
-        {loading ? "Processing..." : "Process"}
-      </button>
-
-      <br /><br />
-  
-      {/* Result */}
-      {result && (
-        <div>
-          <h3>📊 Results</h3>
-          <p>Entered: {result.total_entered}</p>
-          <p>Max Queue: {result.max_queue}</p>
-        </div>
-      )}
-
-      {/* Video Output */}
-      {videoUrl && (
-        <div>
-          <h3>🎬 Processed Video</h3>
-          <video width="600" controls>
-            <source src={videoUrl} type="video/mp4" />
-          </video>
-        </div>
-      )}
     </div>
   );
 
