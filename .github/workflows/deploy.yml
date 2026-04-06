@@ -14,10 +14,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: video_analytic-ui
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,12 +24,20 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
+        working-directory: video_analytic-ui
         run: npm ci
 
       - name: Build project
+        working-directory: video_analytic-ui
         run: npm run build
 
-      - name: Deploy to GitHub Pages
-        uses: bitovi/github-actions-react-to-github-pages@v1.2.4
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: video_analytic-ui/build
+          path: video_analytic-ui/build   # 🔥 your build folder
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
